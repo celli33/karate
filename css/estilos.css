@@ -179,9 +179,11 @@ main{
 }
 
 div.graficos{
-  height: 1000px;
+  height: 2500px;
   background-color: red;
   margin-bottom: 20px;
+  width: 100%;
+  text-align: center;
 }
 
 
