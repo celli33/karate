@@ -2003,6 +2003,8 @@ var kataEquipo=$("a.boton.kata-equipo");
 
 
 var numCompetidores;
+/*orden:id,nom-equipo,categoria,dojo,estado*/
+var competidoresKataEquipo=["1:BUAP Sur:Adulto femenil C. Libre:BUAP:Puebla","2:IPPUUKAN:Adulto femenil C. Libre:BUAP:Zacatecas","3:Jaguares:Adulto femenil C. Libre:Jaguares Teran:Puebla","4:SEISHIN:Adulto femenil C. Libre:SEISHIN DOJO:Puebla","5:BUAP Sur:Adulto femenil C. Libre:BUAP:Puebla","6:IPPUUKAN:Adulto femenil C. Libre:IPPUUKAN:Zacatecas","7:Jaguares:Adulto femenil C. Libre:Jaguares Teran:Puebla","8:SEISHIN:Adulto femenil C. Libre:SEISHIN DOJO:Puebla"];
 
 
 
@@ -2019,9 +2021,24 @@ function getRandomInt(min, max) {
 }
 
 function graphKataInd() {
-  numCompetidores=4;//getRandomInt(4,65);
+  numCompetidores=getRandomInt(4,65);
   console.log("kataInd");
   graficar(numCompetidores);
+}
+
+function arrayToObject(cadena) {
+  var prop= cadena.split(":");
+  console.log(prop);
+  var equipo= new Equipo(prop)
+  return equipo;
+}
+
+function Equipo(prop) {
+  this.id = prop[0];
+  this.nombre = prop[1];
+  this.categoria = prop[2];
+  this.dojo = prop[3];
+  this.estado=prop[4];
 }
 
 function graphkumiteInd() {
@@ -2055,9 +2072,130 @@ function graphKumiteSelectivo() {
 }
 
 function graphKataEquipo() {
-  numCompetidores=getRandomInt(4,65);
-  console.log("kataEquipo");
+  numCompetidores=competidoresKataEquipo.length;
+  console.log(numCompetidores);
+  var equipos=[];
+  for (var i = 0; i < numCompetidores; i++) {
+    equipos.push( arrayToObject(competidoresKataEquipo[i]));
+  }
+  for (var i = 0; i < equipos.length; i++) {
+    console.log("primera vez"+equipos[i].dojo);
+  }
+  var nuevo= ordenamiento(equipos);
+
+  for (var i = 0; i < equipos.length; i++) {
+    console.log("ordenados"+nuevo[i].dojo);
+  }
+  /*for (var i = 0; i < Object.keys(team4).length; i++) {
+    for (var j= 0; j < 2;j++) {
+      console.log( Object.keys( (Object.keys(team4)[i]) )[j] );
+    }
+
+  }*/
+
+    for(let value of Object.keys(team4) ){
+      for(let i of Object.keys(value)){
+        console.log(i);
+      }
+
+    }
+
+
+
   graficar(numCompetidores);
+}
+
+function ordenamiento(equipos) {
+    var i=0;
+    var length=equipos.length;
+    console.log("longitud equipos "+length);
+    console.log(equipos[i].dojo);
+    console.log(equipos[i+1].dojo);
+    var cont=0;
+    var band=0;
+    var azar;
+    var aux=equipos;
+  //  console.log("auxiliar."+aux[i].dojo);
+  //  console.log(aux[i+1].dojo);
+    while(i<=length-1)
+    { aux=equipos.slice(0);
+      while (cont<length-1 && band!=1 ) {
+        if(i==0){
+          if(equipos[i].dojo!=equipos[1+i].dojo){
+            band=1;
+            console.log("en equipos los dojos son distintos y band="+band);
+          }
+        }
+        if(i>0 && i<length-1){
+          if(equipos[i-1].dojo!=equipos[i].dojo && equipos[i+1].dojo!=equipos[i].dojo){
+            band=1;
+          }
+        }
+        if(i==length-1){
+          if(equipos[i-1].dojo!=equipos[i].dojo){
+            band=1;
+          }
+        }
+        if(band==0)
+        { console.log("Entre al band==0 en segundo while");
+          azar=getRandomInt(0,length);
+          console.log("valor de azar:"+azar);
+          if(azar==i){
+            band=1;
+          }
+          if( (azar>0 && azar<length-1) && band!=1 ){
+            console.log("enmedio ");
+              aux[i]=equipos[azar];
+            aux[azar]=equipos[i];
+            for (var j = 0;j < equipos.length; j++) {
+              console.log("cambio"+aux[j].dojo);
+            }
+            if(aux[azar].dojo!=aux[azar-1].dojo && aux[azar+1].dojo!=aux[azar].dojo){
+              band=1;
+              i++;
+            }
+          }
+          if(azar==0 && band!=1){
+            aux[i]=equipos[azar];
+          aux[azar]=equipos[i];
+          for (var j = 0;j < equipos.length; j++) {
+            console.log("cambio"+aux[j].dojo);
+          }
+            if (aux[azar+1].dojo!=aux[azar].dojo) {
+              band=1;
+              i++;
+            }
+          }
+          if(azar==length-1 && band!=1){
+            aux[i]=equipos[azar];
+          aux[azar]=equipos[i];
+          for (var j = 0;j < equipos.length; j++) {
+            console.log("cambio"+aux[j].dojo);
+          }
+            if(aux[azar-1].dojo!=aux[azar].dojo){
+              band=1;
+              i++;
+            }
+          }
+          if(band==0)
+            cont++;
+        }//if band==0
+        //console.log("segundo while");
+        //console.log("i en el primer while "+i);
+        //console.log("con en el primer while "+cont);
+      }//segundo while
+      equipos=aux.slice(0);
+      i++;
+      band=0;
+      cont=0;
+      console.log("primer while");
+    }//primer while
+    for (var j = 0;j < equipos.length; j++) {
+      console.log("cambio"+equipos[j].dojo);
+    }
+    var nuevo=equipos.slice(0);
+    console.log("sali del while");
+    return(nuevo);
 }
 
 
