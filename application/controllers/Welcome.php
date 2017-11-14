@@ -48,7 +48,7 @@ class Welcome extends CI_Controller {
 	public function dojos(){
 		try{
 			$crud = new grocery_crud();
-			$crud->set_table('Dojo');
+			$crud->set_table('dojo');
 			$crud->columns('id_Dojo','nombre_dojo','estado', "maestro");
 			$crud->set_theme('datatables');
 			$crud->required_fields('nombre_dojo', 'estado');
@@ -64,7 +64,7 @@ class Welcome extends CI_Controller {
 	public function competencias(){
 		try{
 			$crud = new grocery_crud();
-			$crud->set_table('Competencia');
+			$crud->set_table('competencia');
 			$crud->columns('id_Competencia','nombre_competencia');
 			$crud->set_theme('datatables');
 			$crud->required_fields('nombre_competencia');
@@ -80,7 +80,7 @@ class Welcome extends CI_Controller {
 	public function categorias(){
 		try{
 			$crud = new grocery_crud();
-			$crud->set_table('Categoria');
+			$crud->set_table('categoria');
 			$crud->columns('id_Categoria','nombre_categoria');
 			$crud->set_theme('datatables');
 			$crud->required_fields('nombre_categoria',"id_Competencia");
@@ -96,11 +96,11 @@ class Welcome extends CI_Controller {
 	public function equipos(){
 		try{
 			$crud = new grocery_crud();
-			$crud->set_table('Equipo');
-			$crud->columns('id_Categoria','nombre_categoria');
+			$crud->set_table('equipo');
+			$crud->columns('id_Equipo','nombre_equipo');
 			$crud->set_theme('datatables');
-			$crud->required_fields('nombre_categoria');
-			$crud->display_as('nombre_categoria','Categoria');
+			$crud->required_fields('nombre_equipo');
+			$crud->display_as('nombre_equipo','Equipo');
 			$this->load->view('head');
 			$output = $crud->render();
 			$this->_example_output($output);
@@ -109,6 +109,53 @@ class Welcome extends CI_Controller {
 		}
 	}
 
+	public function personas(){
+		try{
+			$crud = new grocery_crud();
+			$crud->set_table('persona');
+			$crud->columns('id_Persona','nombre_persona',"f_nacimiento", "sexo", "edad", "grado", "peso","estatura","id_Dojo");
+			$crud->set_theme('datatables');
+			$crud->required_fields('nombre_persona',"f_nacimiento", "sexo", "edad", "grado", "peso","estatura","id_Dojo");
+			$crud->display_as('nombre_persona',"persona","f_nacimiento","fecha", "sexo","sexo", "edad","edad", "grado","grado", "peso","peso","estatura","estatura","id_Dojo","Dojo");
+			$this->load->view('head');
+			$output = $crud->render();
+			$this->_example_output($output);
+		}catch(Exception $e){
+			show_error($e->getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
+
+	public function equipoCategoria(){
+		try{
+			$crud = new grocery_crud();
+			$crud->set_table('equipo_has_categoria');
+			$crud->columns('id_Equipo',"id_Categoria","id_Competencia");
+			$crud->set_theme('datatables');
+			$crud->required_fields('id_Equipo',"id_Categoria","id_Competencia");
+			$crud->display_as('id_Equipo',"id equipo","id_Categoria","id categoria","id_Competencia","id competencia");
+			$this->load->view('head');
+			$output = $crud->render();
+			$this->_example_output($output);
+		}catch(Exception $e){
+			show_error($e->getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
+
+	public function personaCategoria(){
+		try{
+			$crud = new grocery_crud();
+			$crud->set_table('persona_has_categoria');
+			$crud->columns('id_Persona',"id_Categoria","id_Competencia");
+			$crud->set_theme('datatables');
+			$crud->required_fields('id_Persona',"id_Categoria","id_Competencia");
+			$crud->display_as('id_Persona',"id persona","id_Categoria","id categoria","id_Competencia","id competencia");
+			$this->load->view('head');
+			$output = $crud->render();
+			$this->_example_output($output);
+		}catch(Exception $e){
+			show_error($e->getMessage().' --- '.$e->getTraceAsString());
+		}
+	}
 
 
 }
