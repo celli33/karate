@@ -26,6 +26,9 @@
         <div class="cont-boton ">
           <a href="#" class="boton kata-equipo"> kata por equipo</a>
         </div>
+				<div class="cont-boton ">
+          <a href="<?php echo base_url();?>index.php/Welcome/consultas" class="boton consultas">consultas</a>
+        </div>
         <div class="cont-boton ">
           <a href="http://127.0.0.1/karate/index.php/welcome/equipos" class="boton equipos"> equipos</a>
         </div>
