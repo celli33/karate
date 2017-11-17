@@ -125,7 +125,7 @@ class Welcome extends CI_Controller {
 		}
 	}
 
-	public function equipoCategoria(){
+	public function equipoCategoria1(){
 		try{
 			$crud = new grocery_crud();
 			$crud->set_table('equipo_has_categoria');
@@ -174,9 +174,9 @@ class Welcome extends CI_Controller {
 		$data['data'] = array(
 			'nombre' => $this->input->post('nombre'),
 			'dojo' => $this->input->post('dojo')
-		);      
+		);
 		//echo var_dump($data['data']);
-		$this->bases_model->insertaEquipo($data['data']);	
+		$this->bases_model->insertaEquipo($data['data']);
 		redirect('/Welcome/registro/', 'refresh');
 	}
 	public function insertaEC(){
@@ -184,9 +184,9 @@ class Welcome extends CI_Controller {
 			'equipo' => $this->input->post('equipo'),
 			'competencia' => $this->input->post('competencia'),
 			'categoria' => $this->input->post('categoria1')
-		);   
+		);
 		echo var_dump($data['data']);
-		$this->bases_model->insertaEC($data['data']);	
+		$this->bases_model->insertaEC($data['data']);
 		redirect('/Welcome/equipoCategoria/', 'refresh');
 	}
 
@@ -195,9 +195,9 @@ class Welcome extends CI_Controller {
 		$this->load->view('header');
 		$this->load->view('encabezado');
 		$cadena = "select * from competencia where id_Competencia<3";
-		$data['competenciaI']=$this->bases_model->getQuery($cadena);
+		$data['competenciaI']=$this->Bases_model->getQuery($cadena);
 		$cadena = "select * from competencia where id_Competencia>2";
-		$data['competenciaE']=$this->bases_model->getQuery($cadena);
+		$data['competenciaE']=$this->Bases_model->getQuery($cadena);
 		$this->load->view('consultas',$data);
 		$this->load->view('footer');
 	}
@@ -207,17 +207,17 @@ class Welcome extends CI_Controller {
       	if($this->input->post('competenciaI')){
       		$competencia = $this->input->post('competenciaI');
       		$cadena="select * from categoria where id_Competencia='".$competencia."'";
-       		$categoria = $this->bases_model->getQuery($cadena);?>
+       		$categoria = $this->Bases_model->getQuery($cadena);?>
          	<div name="categoriaI" id="categoriaI">
           		<label for="categoriaI">Selecciona una Categoria:</label>
              	<select class="form-control" id="categoriaI1" name="categoriaI1">
              		<option value="" disabled selected>click aquí</option>
              		<?php foreach($categoria->result() as $fila){?>
-             			<option value="<?=$fila->id_Categoria?>"><?=$fila ->nombre_categoria?></option> 
+             			<option value="<?=$fila->id_Categoria?>"><?=$fila ->nombre_categoria?></option>
              		<?php }?>
              	</select>
           	</div>
-         	<?php 
+         	<?php
        	}
 	}
 	public function llenaCategoriaE(){//esta funcion llena el div de la consulta
@@ -225,72 +225,90 @@ class Welcome extends CI_Controller {
       	if($this->input->post('competenciaE')){
       		$competencia = $this->input->post('competenciaE');
       		$cadena="select * from categoria where id_Competencia='".$competencia."'";
-       		$categoria = $this->bases_model->getQuery($cadena);?>
+       		$categoria = $this->Bases_model->getQuery($cadena);?>
          	<div name="categoriaE" id="categoriaE">
           		<label for="categoriaE">Selecciona una Categoria:</label>
              	<select class="form-control" id="categoriaE1" name="categoriaE1">
              		<option value="" disabled selected>click aquí</option>
              		<?php foreach($categoria->result() as $fila){?>
-             			<option value="<?=$fila->id_Categoria?>"><?=$fila ->nombre_categoria?></option> 
+             			<option value="<?=$fila->id_Categoria?>"><?=$fila ->nombre_categoria?></option>
              		<?php }?>
              	</select>
           	</div>
-         	<?php 
+         	<?php
        	}
 	}
 	public function llenaCompetidoresI(){//esta funcion da la consulta
-		
+		$this->load->view('head');
+		$this->load->view('header');
+		$this->load->view('main');
 		$data['data'] = array(
 			'categoria' => $this->input->post('categoriaI1'),
 			'competencia' => $this->input->post('competenciaI')
-		);      
+		);
 		//echo var_dump($data['data']);
-		
-       	$competidores = $this->bases_model->getCompetidores($data['data']);
-		
-		
-		if ($competidores!=FALSE){ 
-			$i=1;
+
+       	$competidores = $this->Bases_model->getCompetidores($data['data']);
+
+
+		if ($competidores!=FALSE){
+			$i=0;?>
+			<a href="#" class="boton mostrar-datos"> Ocultar Datos de competidores</a<?php
 			foreach($competidores->result() as $row) { ?>
 			  <form id="form<?php echo $i;?>" name="form<?php echo $i;?>" class="form-inline alert alert-info">
 			    <div class="form-group">
 			     <label for="nombre_persona<?php echo $i;?>">nombre:</label>
-			     <input type="text" class="form-control" readonly id="nombre_persona<?php echo $i;?>" name="nombre_persona<?php echo $i;?>" value="<?php echo $row->nombre_persona;?>">
+			     <input type="text" class="form-control texto-control nombre<?php echo $i;?>" readonly id="nombre_persona<?php echo $i;?>" name="nombre_persona<?php echo $i;?>" value="<?php echo $row->nombre_persona;?>">
 			     <label for="dojo<?php echo $i;?>">dojo:</label>
-			     <input type="text" class="form-control" readonly id="dojo<?php echo $i;?>" name="dojo<?php echo $i;?>" value="<?php echo $row->nombre_dojo;?>">
+			     <input type="text" class="form-control texto-control  dojo<?php echo $i;?>" readonly id="dojo<?php echo $i;?>" name="dojo<?php echo $i;?>" value="<?php echo $row->nombre_dojo;?>">
 			     <label for="edad<?php echo $i;?>">edad:</label>
-			     <input type="text" class="form-control" readonly id="edad<?php echo $i;?>" name="edad<?php echo $i;?>" value="<?php echo $row->edad;?>">
-			    </div>			    
+			     <input type="text" class="form-control texto-control edad<?php echo $i;?>" readonly id="edad<?php echo $i;?>" name="edad<?php echo $i;?>" value="<?php echo $row->edad;?>">
+					 <label for="edad<?php echo $i;?>">estatura:</label>
+			     <input type="text" class="form-control texto-control estatura<?php echo $i;?>" readonly id="estatura<?php echo $i;?>" name="estatura<?php echo $i;?>" value="<?php echo $row->estatura;?>">
+			    </div>
 			  </form>
 			  <?php  $i++;}
+				?>
+				<label for="numeroCompetidores" >Numero de competidores:</label>
+				<input type="text" class="form-control texto-control numeroCompetidores" readonly id="numeroCompetidores" name="numeroCompetidores" value="<?php echo $i;?>">
+				<a href="#grafica-sorteo" class="boton sortearI"> sortear</a>
+				<?php
 		}
     }
     public function llenaCompetidoresE(){//esta funcion da la consulta
-		
+			$this->load->view('head');
+			$this->load->view('header');
+			$this->load->view('main');
 		$data['data'] = array(
 			'categoria' => $this->input->post('categoriaE1'),
 			'competencia' => $this->input->post('competenciaE')
-		);      
+		);
 		//echo var_dump($data['data']);
-		
-       	$competidores = $this->bases_model->getCompetidoresE($data['data']);
-		
-		
-		if ($competidores!=FALSE){ 
-			$i=1;
+
+       	$competidores = $this->Bases_model->getCompetidoresE($data['data']);
+
+
+		if ($competidores!=FALSE){
+			$i=0;?>
+			<a href="#" class="boton mostrar-datos"> Ocultar Datos de competidores</a<?php
 			foreach($competidores->result() as $row) { ?>
 			  <form id="form<?php echo $i;?>" name="form<?php echo $i;?>" class="form-inline alert alert-info">
 			    <div class="form-group">
 			     <label for="id_Equipo<?php echo $i;?>">nombre:</label>
-			     <input type="text" class="form-control" readonly id="nombre_equipo<?php echo $i;?>" name="nombre_equipo<?php echo $i;?>" value="<?php echo $row->nombre_equipo;?>">
+			     <input type="text" class="form-control texto-control nombreE<?php echo $i;?>" readonly id="nombre_equipo<?php echo $i;?>" name="nombre_equipo<?php echo $i;?>" value="<?php echo $row->nombre_equipo;?>">
 			     <label for="dojo<?php echo $i;?>">dojo:</label>
-			     <input type="text" class="form-control" readonly id="dojo<?php echo $i;?>" name="dojo<?php echo $i;?>" value="<?php echo $row->nombre_dojo;?>">
+			     <input type="text" class="form-control texto-control dojoE<?php echo $i;?>" readonly id="dojo<?php echo $i;?>" name="dojo<?php echo $i;?>" value="<?php echo $row->nombre_dojo;?>">
 			    </div>
 			  </form>
 			  <?php  $i++;}
+				?>
+				<label for="numeroCompetidores" >Numero de competidores:</label>
+				<input type="text" class="form-control numeroCompetidores" readonly id="numeroCompetidores" name="numeroCompetidores" value="<?php echo $i;?>">
+				<a href="#" class="boton sortearE"> sortear</a>
+				<?php
 		}
     }
-	
+
 	public function llenaCategorias(){//esta funcion solo es para dar de alta en el registro
       	$options = "";
       	if($this->input->post('competencia')){
@@ -301,11 +319,11 @@ class Welcome extends CI_Controller {
           		<label for="categoria">Selecciona una Categoria:</label>
              	<select class="form-control" id="categoria1" name="categoria1">
              		<?php foreach($categoria->result() as $fila){?>
-             			<option value="<?=$fila->id_Categoria?>"><?=$fila ->nombre_categoria?></option> 
+             			<option value="<?=$fila->id_Categoria?>"><?=$fila ->nombre_categoria?></option>
              		<?php }?>
              	</select>
           	</div>
-         	<?php 
+         	<?php
        	}
     }
 
