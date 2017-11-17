@@ -2999,7 +2999,7 @@ var competidoresKumiteind59=[
   "PUEBLA|DENSHO JUKU GANBARU|Infantil mixto 10 - 11 años C. Verde/Morada|CHRISTIAN ROLDAN CORONA|Masculino|11|7 kyu|47 kg|150|KUMITE INDIVIDUAL|SENSEI YAZMIN HUERTA MARTÍNEZ",
   "PUEBLA|DENSHO JUKU GANBARU|Infantil mixto 10 - 11 años C. Verde/Morada|IAN MOISES ENRIQUEZ LÓPEZ|Masculino|11|7 kyu|49 kg|146|KUMITE INDIVIDUAL|SENSEI YAZMIN HUERTA MARTÍNEZ",
   "PUEBLA|DENSHO JUKU GANBARU|Infantil mixto 10 - 11 años C. Verde/Morada|RAMÓN SAÚL TOMÉ VÁZQUEZ|Masculino|10|4 kyu|37 kg|141|KUMITE INDIVIDUAL|SENSEI YAZMIN HUERTA MARTÍNEZ",
-  "PUEBLA|DOJO DEL SUR-UVP|Infantil mixto 10 - 11 años C. Verde/Morada|MARTIN ARTURO HERNANDEZ MUÑOS|Masculino|11|7 kyu|28 kg|145|KUMITE INDIVIDUAL|&quot;SENSEI ALFONSO TORRES CAMPOS SENSEI ALFONSO TORRES VÉLEZ",  
+  "PUEBLA|DOJO DEL SUR-UVP|Infantil mixto 10 - 11 años C. Verde/Morada|MARTIN ARTURO HERNANDEZ MUÑOS|Masculino|11|7 kyu|28 kg|145|KUMITE INDIVIDUAL|&quot;SENSEI ALFONSO TORRES CAMPOS SENSEI ALFONSO TORRES VÉLEZ",
   "PUEBLA|DOJO DEL SUR-UVP|Infantil mixto 10 - 11 años C. Verde/Morada|YUSSEF KURI HERNANDEZ|Masculino|10|7 kyu|34 kg|134|KUMITE INDIVIDUAL|&quot;SENSEI ALFONSO TORRES CAMPOS SENSEI ALFONSO TORRES VÉLEZ",
   "CHIHUAHUA|JIN JUKU	|Infantil mixto 10 - 11 años C. Verde/Morada|DIEGO JARED GARCÍA GONZALEZ|Masculino|10|6 kyu|35|137|KUMITE INDIVIDUAL|SENSEI FRANCISCO CARBAJAL REYES SENSEI EVELIA MORA LOZAN",
   "CHIHUAHUA|JIN JUKU	|Infantil mixto 10 - 11 años C. Verde/Morada|Javier Francisco Corral|Masculino|10|7 kyu|37 kg|137|KUMITE INDIVIDUAL|SENSEI FRANCISCO CARBAJAL REYES SENSEI EVELIA MORA LOZAN",
@@ -5770,7 +5770,7 @@ function graphkumiteInd() {
 }
 
 function graphKataPar() {
-  var escribir=$(".escribir")
+  var escribir=$(".escribir");
   var categoria= parseInt($(".categoria").val());
   console.log("categoria: ind "+categoria);
   switch (categoria) {
