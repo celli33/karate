@@ -227,6 +227,24 @@ div.graficos{
   margin-bottom: 20px;
   width: 100%;
   text-align: center;
+  display: none;
+}
+
+div.jQBracket .team div.label{
+  left:2;
+  color: black,
+}
+
+a.boton.mostrar-datos{
+  margin: 10px;
+  display:block;
+}
+
+label{
+  font-size: 2em;
+}
+.form-control.texto-Control{
+  font-size: 2em;
 }
 
 
