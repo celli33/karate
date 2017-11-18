@@ -14,8 +14,12 @@ html {
     color: #222;
     font-size: 1em;
     line-height: 1.4;
-}
 
+    background-color: #669999;
+}
+body{
+  background-color: #669999;
+}
 /*
  * Remove text-shadow in selection highlight:
  * https://twitter.com/miketaylr/status/12228805301
@@ -242,6 +246,7 @@ a.boton.mostrar-datos{
 
 label{
   font-size: 2em;
+  color: black;
 }
 .form-control.texto-Control{
   font-size: 2em;

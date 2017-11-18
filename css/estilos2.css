@@ -1,0 +1,37 @@
+
+body.fondo{
+	background-color: #669999;
+}
+label{
+	color:black;
+}
+label.label-form{
+	color:black;
+	font-size: 20px;
+}
+input.form-control.texto-control{
+	color:black;
+	position: center;
+	font-size: 20px;
+}
+div.form-group{
+	height: 30;
+}
+a.collapsed.card-link{
+	font-size: 20px;
+}
+a.card-link{
+	font-size: 20px;
+}
+label.l-card{
+	color:black;
+	font-size: 20px;
+}
+div.card-header{
+	padding: .75rem 1.25rem;
+	padding-top: 0.75rem;
+    padding-right: 1.25rem;
+    padding-bottom: 0.75rem;
+    padding-left: 1.25rem;
+    background-color: rgba(0,0,0,.03);
+}
