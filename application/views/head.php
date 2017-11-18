@@ -12,4 +12,4 @@
     <script type="text/javascript" src="<?php echo base_url();?>js/jquery.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>js/scripts.js"></script>
     <script type="text/javascript" src="<?php echo base_url();?>js/jquery.bracket.min.js"></script>
-  </body>
+ </body>

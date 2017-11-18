@@ -1,5 +1,5 @@
-<body>
 
+<body class="fondo">
 <div class="container">
   <h2>Consultas</h2>
 	<form action="<?php echo base_url();?>index.php/Welcome/llenaCompetidoresI" method="POST">
@@ -12,7 +12,7 @@
         </div>
         <div id="collapseOne" class="collapse">
           <div class="card-block">            
-              <label for="medio">Selecciona una competencia:</label>
+              <label class="l-card" for="medio">Selecciona una competencia:</label>
               <select class="form-control" id="competenciaI" name="competenciaI">
                 <option value="" disabled selected>click aquí</option>
                 <?php foreach($competenciaI->result() as $fila) {?>
@@ -37,7 +37,7 @@
         </div>
         <div id="collapseTwo" class="collapse">
           <div class="card-block">
-              <label for="medio">Selecciona una competencia:</label>
+              <label class="l-card" for="medio">Selecciona una competencia:</label>
               <select class="form-control" id="competenciaE" name="competenciaE">
                 <option value="" disabled selected>click aquí</option>
                 <?php foreach($competenciaE->result() as $fila) {?>

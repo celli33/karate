@@ -3,7 +3,10 @@
 <head>
   <title>Karate</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="<?php echo base_url();?>css/estilos2.css">
   <link rel="stylesheet" href="<?php echo base_url();?>css/bootstrap.min.css">
+  
+
   <script src="<?php echo base_url();?>js/jquery.min.js"></script>
   <script src="<?php echo base_url();?>js/popper.min.js"></script>
   <script src="<?php echo base_url();?>js/bootstrap.min.js"></script>
@@ -28,7 +31,7 @@
       $("#competenciaE").change(function() {
         $("#competenciaE option:selected").each(function() {
              competenciaE = $('#competenciaE').val();
-             $.post("http://localhost/karate/index.php/Welcome/llenaCategoriaE", {
+             $.post("<?php echo base_url();?>index.php/Welcome/llenaCategoriaE", {
              competenciaE : competenciaE}, function(data) {
              $("#categoriaE").html(data); });
             });
@@ -41,7 +44,7 @@
         $("#competencia").change(function() {
         $("#competencia option:selected").each(function() {
              competencia = $('#competencia').val();
-             $.post("http://localhost/karate/index.php/Welcome/llenaCategorias", {
+             $.post("<?php echo base_url();?>index.php/Welcome/llenaCategorias", {
              competencia : competencia}, function(data) {
              $("#categoria").html(data); });
             });
@@ -49,6 +52,6 @@
        });
    </script>
 
-
+   
 
 </head>
