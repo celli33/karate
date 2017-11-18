@@ -209,7 +209,7 @@ class Welcome extends CI_Controller {
       		$cadena="select * from categoria where id_Competencia='".$competencia."'";
        		$categoria = $this->Bases_model->getQuery($cadena);?>
          	<div name="categoriaI" id="categoriaI">
-          		<label for="categoriaI">Selecciona una Categoria:</label>
+          		<label class="l-card" for="categoriaI">Selecciona una Categoria:</label>
              	<select class="form-control" id="categoriaI1" name="categoriaI1">
              		<option value="" disabled selected>click aquí</option>
              		<?php foreach($categoria->result() as $fila){?>
@@ -227,7 +227,7 @@ class Welcome extends CI_Controller {
       		$cadena="select * from categoria where id_Competencia='".$competencia."'";
        		$categoria = $this->Bases_model->getQuery($cadena);?>
          	<div name="categoriaE" id="categoriaE">
-          		<label for="categoriaE">Selecciona una Categoria:</label>
+          		<label class="l-card" for="categoriaE">Selecciona una Categoria:</label>
              	<select class="form-control" id="categoriaE1" name="categoriaE1">
              		<option value="" disabled selected>click aquí</option>
              		<?php foreach($categoria->result() as $fila){?>
@@ -241,7 +241,7 @@ class Welcome extends CI_Controller {
 	public function llenaCompetidoresI(){//esta funcion da la consulta
 		$this->load->view('head');
 		$this->load->view('header');
-		$this->load->view('main');
+		//$this->load->view('main');
 		$data['data'] = array(
 			'categoria' => $this->input->post('categoriaI1'),
 			'competencia' => $this->input->post('competenciaI')
@@ -253,32 +253,49 @@ class Welcome extends CI_Controller {
 
 		if ($competidores!=FALSE){
 			$i=0;?>
-			<a href="#" class="boton mostrar-datos"> Ocultar Datos de competidores</a<?php
+			<body class="fondo">
+			<a href="#" class="boton mostrar-datos">Ocultar Datos de competidores</a><?php
+
 			foreach($competidores->result() as $row) { ?>
-			  <form id="form<?php echo $i;?>" name="form<?php echo $i;?>" class="form-inline alert alert-info">
-			    <div class="form-group">
-			     <label for="nombre_persona<?php echo $i;?>">nombre:</label>
-			     <input type="text" class="form-control texto-control nombre<?php echo $i;?>" readonly id="nombre_persona<?php echo $i;?>" name="nombre_persona<?php echo $i;?>" value="<?php echo $row->nombre_persona;?>">
-			     <label for="dojo<?php echo $i;?>">dojo:</label>
-			     <input type="text" class="form-control texto-control  dojo<?php echo $i;?>" readonly id="dojo<?php echo $i;?>" name="dojo<?php echo $i;?>" value="<?php echo $row->nombre_dojo;?>">
-			     <label for="edad<?php echo $i;?>">edad:</label>
-			     <input type="text" class="form-control texto-control edad<?php echo $i;?>" readonly id="edad<?php echo $i;?>" name="edad<?php echo $i;?>" value="<?php echo $row->edad;?>">
-					 <label for="edad<?php echo $i;?>">estatura:</label>
-			     <input type="text" class="form-control texto-control estatura<?php echo $i;?>" readonly id="estatura<?php echo $i;?>" name="estatura<?php echo $i;?>" value="<?php echo $row->estatura;?>">
-			    </div>
-			  </form>
-			  <?php  $i++;}
+			  	<form id="form<?php echo $i;?>" name="form<?php echo $i;?>" class="form-inline alert alert-info">
+			    	<div class="form-group">
+			     		<label class="label-form" for="nombre_persona<?php echo $i;?>">nombre:</label>
+			     	</div>
+			    	<div class="form-group">
+			     		<input type="text" class="form-control texto-control nombre<?php echo $i;?>" readonly id="nombre_persona<?php echo $i;?>" name="nombre_persona<?php echo $i;?>" size="40" value="<?php echo $row->nombre_persona;?>">
+			   		</div>
+			   		<div class="form-group">
+			     		<label class="label-form" for="dojo<?php echo $i;?>">dojo:</label>
+			     	</div>
+			    	<div class="form-group">
+			     		<input type="text" size="30" class="form-control texto-control  dojo<?php echo $i;?>" readonly id="dojo<?php echo $i;?>" name="dojo<?php echo $i;?>" value="<?php echo $row->nombre_dojo;?>">
+			     	</div>
+			     	<div class="form-group">
+			     		<label class="label-form" for="edad<?php echo $i;?>">edad:</label>
+			     	</div>
+			    	<div class="form-group">
+			     		<input type="text" size="1" class="form-control texto-control edad<?php echo $i;?>" readonly id="edad<?php echo $i;?>" name="edad<?php echo $i;?>" value="<?php echo $row->edad;?>">
+			     	</div>
+			     	<div class="form-group">
+					 	<label class="label-form" for="edad<?php echo $i;?>">estatura:</label>
+					</div>
+			    	<div class="form-group">
+			     		<input type="text" size="4" class="form-control texto-control estatura<?php echo $i;?>" readonly id="estatura<?php echo $i;?>" name="estatura<?php echo $i;?>" value="<?php echo $row->estatura;?>">
+			    	</div>
+			  	</form>
+			  	<?php  $i++;}
 				?>
-				<label for="numeroCompetidores" >Numero de competidores:</label>
+				<label class="label-form" for="numeroCompetidores" >Numero de competidores:</label>
 				<input type="text" class="form-control texto-control numeroCompetidores" readonly id="numeroCompetidores" name="numeroCompetidores" value="<?php echo $i;?>">
 				<a href="#grafica-sorteo" class="boton sortearI"> sortear</a>
+				<a href="<?php echo base_url();?>index.php/Welcome/consultas" class="boton">Regresar</a>
+				</body>
 				<?php
 		}
     }
     public function llenaCompetidoresE(){//esta funcion da la consulta
 			$this->load->view('head');
 			$this->load->view('header');
-			$this->load->view('main');
 		$data['data'] = array(
 			'categoria' => $this->input->post('categoriaE1'),
 			'competencia' => $this->input->post('competenciaE')
@@ -290,21 +307,30 @@ class Welcome extends CI_Controller {
 
 		if ($competidores!=FALSE){
 			$i=0;?>
-			<a href="#" class="boton mostrar-datos"> Ocultar Datos de competidores</a<?php
+			<body class="fondo">
+			<a href="#" class="boton mostrar-datos"> Ocultar Datos de competidores</a><?php
 			foreach($competidores->result() as $row) { ?>
-			  <form id="form<?php echo $i;?>" name="form<?php echo $i;?>" class="form-inline alert alert-info">
-			    <div class="form-group">
-			     <label for="id_Equipo<?php echo $i;?>">nombre:</label>
-			     <input type="text" class="form-control texto-control nombreE<?php echo $i;?>" readonly id="nombre_equipo<?php echo $i;?>" name="nombre_equipo<?php echo $i;?>" value="<?php echo $row->nombre_equipo;?>">
-			     <label for="dojo<?php echo $i;?>">dojo:</label>
-			     <input type="text" class="form-control texto-control dojoE<?php echo $i;?>" readonly id="dojo<?php echo $i;?>" name="dojo<?php echo $i;?>" value="<?php echo $row->nombre_dojo;?>">
-			    </div>
+			  	<form id="form<?php echo $i;?>" name="form<?php echo $i;?>" class="form-inline alert alert-info">
+			    	<div class="form-group">
+			     		<label class="label-form" for="id_Equipo<?php echo $i;?>">nombre:</label>
+			    	</div>
+			    	<div class="form-group">
+			     		<input type="text" class="form-control texto-control nombreE<?php echo $i;?>" readonly id="nombre_equipo<?php echo $i;?>" name="nombre_equipo<?php echo $i;?>" value="<?php echo $row->nombre_equipo;?>">
+			     	</div>
+			    	<div class="form-group">
+			     		<label class="label-form" for="dojo<?php echo $i;?>">dojo:</label>
+			     	</div>
+			    	<div class="form-group">
+			     		<input type="text" class="form-control texto-control dojoE<?php echo $i;?>" readonly id="dojo<?php echo $i;?>" name="dojo<?php echo $i;?>" value="<?php echo $row->nombre_dojo;?>">
+			    	</div>
 			  </form>
 			  <?php  $i++;}
 				?>
-				<label for="numeroCompetidores" >Numero de competidores:</label>
-				<input type="text" class="form-control numeroCompetidores" readonly id="numeroCompetidores" name="numeroCompetidores" value="<?php echo $i;?>">
+				<label class="label-form" for="numeroCompetidores" >Numero de competidores:</label>
+				<input input type="text" class="form-control texto-control numeroCompetidores" readonly id="numeroCompetidores" name="numeroCompetidores" value="<?php echo $i;?>">
 				<a href="#" class="boton sortearE"> sortear</a>
+				<a href="<?php echo base_url();?>index.php/Welcome/consultas" class="boton">Regresar</a>
+				</body>
 				<?php
 		}
     }
