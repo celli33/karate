@@ -7,7 +7,10 @@
    		("Location: <?php echo base_url();?>index.php/welcome/");
    	}
     if(isset($competidores)){
-
+      if(isset($competencia)){
+        echo $competencia." ";
+        echo $categoria;
+      }
 
     foreach($competidores->result() as $row) { ?>
       <form id="form<?php echo $i;?>" name="form<?php echo $i;?>" class="form-inline alert alert-info">
@@ -60,7 +63,7 @@
   <div class="contenedor">
     <div class="graficos" id="grafica-sorteo">
 
-      <div class="demo">
+      <div class="demo" id="demo">
 
       </div>
     </div>
@@ -73,6 +76,14 @@
     <div class="orden">
       <p class="escribir"></p>
     </div>
-  </div>
+    <div class="guardar">
+      <form method="post" action="<?php echo base_url();?>index.php/Welcome/guardar"  >
+        <input id="inp_img" name="img" type="hidden" value="">
+        <input  name="competencia" type="hidden" value="<?php echo $competencia ?>">
+        <input  name="categoria" type="hidden" value="<?php echo $categoria ?>">
+        <input id="bt_upload" type="submit" class="btn btn-primary guardar-sorteo" value="Guardar sorteo">
+      </form>
+     </div>
+
 
 </main>

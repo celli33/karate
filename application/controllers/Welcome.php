@@ -28,19 +28,85 @@ class Welcome extends CI_Controller {
 	public function index()
 	{ //$this->load->helper('url');
 		$this->load->view('head');
-		$this->load->view('encabezado');
-		//$this->load->view('main');
+		$this->load->view('encabezadoExterno');
+		$this->load->view('login');
 		$this->load->view('footer');
 
 	}
 
+	public function indexAdmin()
+	{
+		$this->load->view('head');
+		$this->load->view('encabezado');
+		$this->load->view('footer');
+	}
 
+	public function indexMaestro()
+	{
+		$this->load->view('head');
+		$this->load->view('encabezadoMaestros');
+		$this->load->view('footer');
+	}
+
+
+  public function iniciarSesion()
+  {
+		$this->form_validation->set_rules('email','email','required');
+		$this->form_validation->set_rules('contraseña','contraseña','required');
+		$this->form_validation->set_message('required','<div class="red-text" >El campo %s es obligatorio</div>');
+		if ($this->form_validation->run() != FALSE){
+			$data["data"] = array(
+			'email' => $this->input->post('email'),
+			'contraseña' => $this->input->post('contraseña')
+			);
+			$data["data"]=$this->Bases_model->iniciarSesion($data["data"]);
+			//comprobar si existe el usuario con el password correcto
+			//inicialmente solo se logea el alumno :3
+			if($data["data"]==FALSE){
+				redirect('/Welcome/index/', 'location');
+			}else{
+				foreach ($data["data"]-> result() as $row) {
+					$datasession = array(
+							'idUsuario' => $row->id_usuario,
+							'usuario' => $row->user,
+							'contraseña' => $row->contra,
+							'nivel' => 0
+						);
+				}
+				if($datasession['usuario']=='Admin'){//nivel 1
+					$datasession['nivel']=1;
+					$this->session->set_userdata($datasession);
+					redirect('/Welcome/indexAdmin/', 'location');
+				}else{
+					$datasession['nivel']=2;
+					$this->session->set_userdata($datasession);
+					redirect('/Welcome/indexMaestro/', 'location');
+				}
+			}
+		}else{
+			$this->index();
+		}
+  }
+
+	public function cerrarSesion(){
+		$datasession = array('nivel' => '');
+		$this->session->unset_userdata($datasession);
+		$this->session->sess_destroy();
+		redirect('/Welcome/index/', 'refresh');
+	}
 
 
 
 	public function _example_output($output = null){
 		$this->load->view('head');
 		$this->load->view('encabezado');
+		$this->load->view('example.php',(array)$output);
+		$this->load->view('footer');
+	}
+
+	public function _example_outputMaestros($output = null){
+		$this->load->view('head');
+		$this->load->view('encabezadoMaestros');
 		$this->load->view('example.php',(array)$output);
 		$this->load->view('footer');
 	}
@@ -104,7 +170,10 @@ class Welcome extends CI_Controller {
 			$crud->unset_add();
 			$this->load->view('head');
 			$output = $crud->render();
-			$this->_example_output($output);
+			if($this->session->userdata('nivel')==1)
+				$this->_example_output($output);
+			if($this->session->userdata('nivel')==2)
+				$this->_example_outputMaestros($output);
 		}catch(Exception $e){
 			show_error($e->getMessage().' --- '.$e->getTraceAsString());
 		}
@@ -113,7 +182,10 @@ class Welcome extends CI_Controller {
 	public function personas(){
 		try{
 			$this->load->view('head');
-			$this->load->view('encabezado');
+			if($this->session->userdata('nivel')==1)
+				$this->load->view('encabezado');
+			if($this->session->userdata('nivel')==2)
+				$this->load->view('encabezadoMaestros');
 			$cadena="select id_Dojo, nombre_dojo from dojo;";
 			$data['dojos']=$this->Bases_model->getQuery($cadena);
 		  $this->load->view('agregarCompetidor',$data);
@@ -136,7 +208,10 @@ class Welcome extends CI_Controller {
 			$crud->display_as('nombre_persona',"persona","f_nacimiento","fecha", "sexo","sexo", "edad","edad", "grado","grado", "peso","peso","estatura","estatura","id_Dojo","Dojo");
 			$crud->unset_add();
 			$output = $crud->render();
-			$this->_example_output($output);
+			if($this->session->userdata('nivel')==1)
+				$this->_example_output($output);
+			if($this->session->userdata('nivel')==2)
+				$this->_example_outputMaestros($output);
 			} catch (\Exception $e) {
 				show_error($e->getMessage().' --- '.$e->getTraceAsString());
 		}
@@ -162,7 +237,10 @@ class Welcome extends CI_Controller {
 
 			$this->load->view('head');
 			$output = $crud->render();
-			$this->_example_output($output);
+			if($this->session->userdata('nivel')==1)
+				$this->_example_output($output);
+			if($this->session->userdata('nivel')==2)
+				$this->_example_outputMaestros($output);
 		}catch(Exception $e){
 			show_error($e->getMessage().' --- '.$e->getTraceAsString());
 		}
@@ -181,7 +259,10 @@ class Welcome extends CI_Controller {
 			$crud->display_as('id_Persona',"id persona","id_Categoria","id categoria","id_Competencia","id competencia");
 			$this->load->view('head');
 			$output = $crud->render();
-			$this->_example_output($output);
+			if($this->session->userdata('nivel')==1)
+				$this->_example_output($output);
+			if($this->session->userdata('nivel')==2)
+				$this->_example_outputMaestros($output);
 		}catch(Exception $e){
 			show_error($e->getMessage().' --- '.$e->getTraceAsString());
 		}
@@ -367,8 +448,13 @@ class Welcome extends CI_Controller {
 
        	$competidores = $this->Bases_model->getCompetidores($data['data']);
 		if ($competidores!=FALSE){
-			$data['competidores']=$competidores;
-			$this->load->view('main',$data);
+
+			$data['data'] = array(
+				'competidores'=> $competidores,
+				'categoria' => $this->input->post('categoriaI1'),
+				'competencia' => $this->input->post('competenciaI')
+			);
+			$this->load->view('main',$data['data']);
 			}
     }
 
@@ -386,6 +472,8 @@ class Welcome extends CI_Controller {
 				//var_dump($equipos->result());
 				if ($equipos!=FALSE){
 					$data['equipos']=$equipos;
+					$data['competencia']=$this->input->post('competenciaE');
+					$data['categoria']=$this->input->post('categoriaE1');
 					$this->load->view('main',$data);
 					}
     }
@@ -419,10 +507,92 @@ class Welcome extends CI_Controller {
 	}
 	public function registro(){
 		$this->load->view('head');
-		$this->load->view('encabezado');
+		if($this->session->userdata('nivel')==1)
+			$this->load->view('encabezado');
+		if($this->session->userdata('nivel')==2)
+			$this->load->view('encabezadoMaestros');
 		$cadena = "select * from dojo order by nombre_dojo";
 		$data['dojos']=$this->Bases_model->getQuery($cadena);
 		$this->load->view('registro',$data);
 	}
+
+
+	public function guardar(){
+		$this->load->view('head');
+		$this->load->view('encabezado');
+			if($this->input->post('img')){
+				$img=$this->input->post('img');
+				$competencia=$this->input->post('competencia');
+				$categoria=$this->input->post('categoria');
+				$data['competencia']=$competencia;
+				$data['categoria']=$categoria;
+				$data['img']=$img;
+				$ruta='image/'.$competencia."-".$categoria.'.png';
+
+				//echo $img." ".$categoria." ".$competencia;
+				$this->load->view('guardar', $data);
+				$cadena="insert into `sorteos` (`id_sorteo`, `id_competencia`, `id_categoria`, `competidores`) VALUES (NULL, '$competencia', '$categoria', '$ruta')";
+				$this->Bases_model->guardarSorteo($cadena);
+			}else {
+				echo "no";
+			}
+
+	}
+
+	public function verSorteos()
+	{	$this->load->view('head');
+		$this->load->view('header');
+		if($this->session->userdata('nivel')==1)
+			$this->load->view('encabezado');
+		else{
+			if($this->session->userdata('nivel')==2)
+				$this->load->view('encabezadoMaestros');
+				else {
+						$this->load->view('encabezadoExterno');
+				}
+		}
+		$cadena = "select * from competencia where id_Competencia<3";
+		$data['competenciaI']=$this->Bases_model->getQuery($cadena);
+		$cadena = "select * from competencia where id_Competencia>2";
+		$data['competenciaE']=$this->Bases_model->getQuery($cadena);
+		$this->load->view('consultaVer',$data);
+		$this->load->view('footer');
+
+	}
+
+	public function verIndividual()
+	{$this->load->view('head');
+		if($this->session->userdata('nivel')==1)
+			$this->load->view('encabezado');
+		else{
+			if($this->session->userdata('nivel')==2)
+				$this->load->view('encabezadoMaestros');
+				else {
+						$this->load->view('encabezadoExterno');
+				}
+		}
+	 $competencia=$this->input->post('competencia');
+	 if($this->input->post('categoriaI1')!=null) {
+		 $categoria=$this->input->post('categoriaI1');
+	 }
+	 if($this->input->post('categoriaE1')!=null) {
+		 $categoria=$this->input->post('categoriaE1');
+	 }
+
+	 //echo $competencia." ".$categoria;
+	 $data['competencia']=$competencia;
+	 $data['categoria']=$categoria;
+	 $cadena="select competidores from sorteos where id_competencia='$competencia' and id_categoria='$categoria'";
+	 $data['ruta']=$this->Bases_model->verSorteoIndividual($cadena);
+	 //echo $ruta;
+	 if($data['ruta']==FALSE){
+		 $data['message']='no hay sorteo guardado para esta categoria';
+		 $data['heading']='Ver sorteos guardados';
+		 $this->load->view('errors/cli/error_general',$data);
+	 }else {
+	 	$this->load->view('verIndividual',$data);
+	}
+}
+
 
 }

@@ -5,15 +5,24 @@ $(document).ready(function() {
   var botonConsultas=$(".btn.sortearI");
   var botonConsultasEquipos=$(".btn.sortearE");
   var botonDatos=$("a.btn.mostrar-datos");
+  var botonGuardar=$("input.btn.guardar-sorteo");
+  botonGuardar.hide();
+  var sorteoPresionado=0;
   console.log(botonDatos);
   var competidores;
   bandMostrar=0;
   botonConsultas.click(obtenerDatosSorteo);
   botonConsultasEquipos.click(obtenerDatosSorteoEquipos);
-  botonDatos.click(ocultarMostrar)
+  botonDatos.click(ocultarMostrar);
+  //botonGuardar.click(render);
+
+
+
+
+
 
   function ocultarMostrar() {
-    $('.btn.sortearI').focus()
+    $('.btn.sortearI').focus();
     console.log(botonDatos);
     if(bandMostrar==0)
     {  $("form.form-inline").css("display","none");
@@ -32,6 +41,8 @@ $(document).ready(function() {
 
     function obtenerDatosSorteoEquipos() {
       var equipos=[];
+      sorteoPresionado=1;
+      botonGuardar.show();
       numCompetidores=$(".numeroCompetidores");
       numCompetidores=Math.round(numCompetidores.val());
       //numCompetidores=5;
@@ -74,6 +85,8 @@ $(document).ready(function() {
   }
 
   function obtenerDatosSorteo() {
+    sorteoPresionado=1;
+    botonGuardar.show();
     console.log("datos sorteo");
     $('a.btn.sortearI').focus()
     var equipos=[];
@@ -2232,6 +2245,14 @@ function graficar(nuevo){
       escribir.append((i+1)+":dojo "+nuevo[i].dojo+" nombre " + nuevo[i].nombre +" edad "+ nuevo[i].edad+" estatura "+nuevo[i].estatura+"<br>");
       //team4.m=[nuevo[i].nombre, nuevo[i+1].nombre];
     }
+
+    html2canvas(document.querySelector(".bracket")).then(function(canvas) {
+      $("#inp_img").val(canvas);
+      document.getElementById('inp_img').value = canvas.toDataURL();
+      //console.log(dataURL);
+    }
+
+  );
   }//fin graficar
 
 

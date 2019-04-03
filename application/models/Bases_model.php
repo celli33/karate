@@ -15,6 +15,20 @@ class bases_model extends CI_Model {
             return FALSE;
     }
 
+    public function guardarSorteo($cadena)
+    {
+      $query = $this->db->query($cadena);
+    }
+
+    public function verSorteoIndividual($cadena)
+    {
+      $query= $this->db->query($cadena);
+      if($query->num_rows()>0)
+          return $query;
+      else
+          return FALSE;
+    }
+
     public function getCompetidores($data){
 		$cadena="select pc.id_Persona,d.estado,d.nombre_dojo,c.nombre_categoria,p.nombre_persona,p.sexo,p.edad,p.grado,p.peso,p.estatura,co.nombre_competencia,d.maestro
 		from persona_has_categoria as pc inner join persona as p on pc.id_Persona=p.id_Persona
@@ -108,5 +122,15 @@ class bases_model extends CI_Model {
       return true;
     }
   }
+
+  public function iniciarSesion($data){
+        $cadena="select * from usuario where user='".$data['email']."' and contra='".$data['contraseña']."'";
+        $query = $this->db->query($cadena);
+        //echo var_dump($query);
+        if($query->num_rows()>0)
+            return $query;
+        else
+            return FALSE;
+    }
 
 }

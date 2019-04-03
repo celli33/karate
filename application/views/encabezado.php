@@ -1,4 +1,5 @@
 <body>
+  <?php if($this->session->userdata('nivel')==1) {?>
 <header>
 
 
@@ -17,6 +18,8 @@
       <li><a href="<?php echo base_url();?>index.php/welcome/categorias" > categorias</a></li>
       <li><a href="<?php echo base_url();?>index.php/welcome/equipocategoria1" > competencias por equipo</a></li>
       <li><a href="<?php echo base_url();?>index.php/welcome/personacategoria" > competencias por persona</a></li>
+      <li><a href="<?php echo base_url();?>index.php/welcome/verSorteos" > ver Sorteos</a></li>
+      <li><a href="<?php echo base_url();?>index.php/welcome/cerrarSesion" > cerrar sesión</a></li>
       <li class="hide-on-med-and-up"><a href="<?php echo base_url();?>index.php/welcome/personas"> Agregar Competidores</a></li>
       <li class="hide-on-med-and-up"><a href="<?php echo base_url();?>index.php/welcome/registro" > Agregar Equipo</a></li>
 
@@ -48,8 +51,10 @@
     <li><a href="<?php echo base_url();?>index.php/welcome/categorias" > categorias</a></li>
     <li><a href="<?php echo base_url();?>index.php/welcome/equipocategoria1" > competencias por equipo</a></li>
     <li><a href="<?php echo base_url();?>index.php/welcome/personacategoria" > competencias por persona</a></li>
+    <li><a href="<?php echo base_url();?>index.php/welcome/verSorteos" > ver sorteos</a></li>
     <li><a href="<?php echo base_url();?>index.php/welcome/personas"> Agregar Competidores</a></li>
     <li ><a href="<?php echo base_url();?>index.php/welcome/registro" > Agregar Equipo</a></li>
+    <li ><a href="<?php echo base_url();?>index.php/welcome/cerrarSesion" > cerrar sesión</a></li>
   </ul>
 
 
@@ -68,3 +73,7 @@
 
   </div><!--contenedor-->
 </header>
+<?php }
+else
+    redirect('/Welcome/index/', 'location');
+?>
